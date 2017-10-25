@@ -1,7 +1,6 @@
 require('dotenv').config({ silent: true });
 const { IncomingWebhook } = require('@slack/client');
 const npmCheck = require('npm-check');
-const _ = require('lodash');
 const parseCurrentState = require('./lib/parse-current-state');
 const slackSendMessageAsync = require('./lib/slack-send-message-async');
 
@@ -11,7 +10,7 @@ require('./lib/required-env.js')([
   'JOB_NAME'
 ]);
 
-async function run () {
+async function run() {
   const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
   const options = {};
 
@@ -24,6 +23,6 @@ async function run () {
   };
 
   await slackSendMessageAsync(webhook, message);
-};
+}
 
-run().catch(error => console.error(error));
+run().catch(error => console.error(error)); // eslint-disable-line no-console
