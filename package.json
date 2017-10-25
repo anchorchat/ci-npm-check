@@ -2,7 +2,7 @@
   "name": "@anchorchat/ci-npm-check",
   "version": "1.0.0",
   "description": "Simple tool for running npm-check from your CI tool",
-  "main": "ci-npm-check.js",
+  "main": "index.js",
   "author": "Peter Kuiper <peter.kuiper@anchor.chat>",
   "license": "MIT",
   "scripts": {
