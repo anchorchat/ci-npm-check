@@ -2,40 +2,14 @@ require('dotenv').config({ silent: true });
 const { IncomingWebhook } = require('@slack/client');
 const npmCheck = require('npm-check');
 const _ = require('lodash');
+const parseCurrentState = require('./lib/parse-current-state');
+const slackSendMessageAsync = require('./lib/slack-send-message-async');
 
 // Make sure all required env variables are set
 require('./lib/required-env.js')([
   'SLACK_WEBHOOK_URL',
   'JOB_NAME'
 ]);
-
-const parseCurrentState = currentState => (
-  _.compact(_.map(currentState.get('packages'), (pkg) => {
-    const { latest, installed } = pkg;
-    if (latest !== installed) {
-      return {
-        fallback: pkg.moduleName,
-        color: 'danger',
-        fields: [{
-          title: pkg.moduleName,
-          value: `${pkg.installed} !== ${pkg.latest}`
-        }]
-      };
-    }
-
-    return false;
-  }))
-);
-
-const slackSendMessage = (webhook, message) => (
-  new Promise((resolve, reject) => {
-    const callback = (err, header, statusCode, body) => (
-      err ? reject(err) : resolve({ header, statusCode, body })
-    );
-
-    return webhook.send(message, callback);
-  })
-);
 
 async function run () {
   const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
@@ -49,7 +23,7 @@ async function run () {
     attachments
   };
 
-  await slackSendMessage(webhook, message);
+  await slackSendMessageAsync(webhook, message);
 };
 
 run().catch(error => console.error(error));
