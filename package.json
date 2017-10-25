@@ -1,5 +1,5 @@
 {
-  "name": "ci-npm-check",
+  "name": "@anchorchat/ci-npm-check",
   "version": "0.0.1",
   "description": "Simple tool for running npm-check from your CI tool",
   "main": "ci-npm-check.js",
