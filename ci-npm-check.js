@@ -37,7 +37,7 @@ const slackSendMessage = (webhook, message) => (
   })
 );
 
-(async () => {
+async function run () {
   const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
   const options = {};
 
@@ -50,4 +50,6 @@ const slackSendMessage = (webhook, message) => (
   };
 
   await slackSendMessage(webhook, message);
-})();
+};
+
+run().catch(error => console.error(error));
