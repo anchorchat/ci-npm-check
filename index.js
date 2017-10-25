@@ -1,6 +1,7 @@
 require('dotenv').config({ silent: true });
 const { IncomingWebhook } = require('@slack/client');
 const npmCheck = require('npm-check');
+const _ = require('lodash');
 const parseCurrentState = require('./lib/parse-current-state');
 const slackSendMessageAsync = require('./lib/slack-send-message-async');
 
@@ -14,12 +15,19 @@ async function run() {
   const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
   const options = {};
 
-  const attachments = await npmCheck(options)
+  const packages = await npmCheck(options)
     .then(parseCurrentState);
 
   const message = {
     text: process.env.JOB_NAME,
-    attachments
+    attachments: _.map(packages, pkg => ({
+      fallback: pkg.moduleName,
+      color: 'danger',
+      fields: [{
+        title: pkg.moduleName,
+        value: `${pkg.installed} !== ${pkg.latest}`
+      }]
+    }))
   };
 
   await slackSendMessageAsync(webhook, message);
