@@ -1,0 +1,24 @@
+{
+  "name": "ci-npm-check",
+  "version": "0.0.1",
+  "description": "Simple tool for running npm-check from your CI tool",
+  "main": "ci-npm-check.js",
+  "author": "Peter Kuiper <peter.kuiper@anchor.chat>",
+  "license": "MIT",
+  "scripts": {
+    "eslint": "eslint '{lib}/**/**/*.{js}' '*.js'"
+  },
+  "dependencies": {
+    "@slack/client": "^3.14.1",
+    "dotenv": "^4.0.0",
+    "lodash": "^4.17.4",
+    "npm-check": "^5.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  }
+}
